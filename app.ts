@@ -11,7 +11,16 @@ import swaggerUi from 'swagger-ui-express';
 import swaggerOptions from './swagger';
 import chat from './src/routes/chat'
 import cors from "cors";
+import certificate from "./src/routes/certificate";
+import { rateLimit } from 'express-rate-limit'
 
+const limiter = rateLimit({
+	windowMs: 2 * 60 * 1000,
+	limit: 200, 
+  message:"Too many requests, please try again later"
+})
+
+app.use(limiter)
 
 // Middleware setup
 app.use(express.json());
@@ -29,6 +38,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 // Routes setup
 app.use('/api/auth', auth)
 app.use('/api/chat', chat)
+app.use('/api/certificate', certificate)
 
 
 // Start server
