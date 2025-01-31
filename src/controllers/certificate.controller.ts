@@ -67,8 +67,7 @@ export const getCertificateById = async (req: Request, res: Response) => {
     try {
         const certificate = await certificateRepo.findOne({
             where: { id },
-            relations: ["user"],
-            select: ["id", "courseName", "createdAt"] 
+            
         });
 
         if (!certificate) {
